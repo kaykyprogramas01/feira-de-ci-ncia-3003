@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚽ Copa do Mundo - Análise Interdisciplinar</title>
+    <style>
+        :root {
+            --primary-dark: #0f1419;
+            --secondary-dark: #1a1f2e;
+            --tertiary-dark: #252c3d;
+            --accent-gold: #ffd700;
+            --accent-bright: #ffed4e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b8c8;
+            --border-color: #404857;
+            --success: #00d084;
+            --warning: #ff6b35;
+            --info: #4a90e2;
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1f2e 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1f2e 0%, #252c3d 100%);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navegação */
+        nav {
+            background: var(--secondary-dark);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav li {
+            flex: 1;
+            min-width: 120px;
+            max-width: 180px;
+        }
+
+        nav button {
+            width: 100%;
+            background: none;
+            border: 2px solid transparent;
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        nav button:hover {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        nav button.active {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Seções */
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 120px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            border-bottom: 3px solid var(--accent-gold);
+            padding-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* Grid de Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--tertiary-dark) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-gold) 0%, transparent 100%);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .timeline-content {
+            background: var(--tertiary-dark);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-gold);
+            flex: 1;
+        }
+
+        .timeline-content h4 {
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: var(--tertiary-dark);
+            border-radius: var(--radius);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            flex-wrap: wrap;
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-gold);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), transparent);
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Stats Box */
+        .stat-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border: 1px solid var(--accent-gold);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            transition: var(--transition);
+        }
+
+        .stat-box:hover {
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .stat-box .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .stat-box .label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.05) 100%);
+            border-left: 4px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: var(--text-secondary);
+        }
+
+        .highlight-box strong {
+            color: var(--accent-gold);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-dark);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer strong {
+            color: var(--accent-gold);
+        }
+
+        /* Botões */
+        .btn {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #ffc700 100%);
+            color: #000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            header {
+                padding: 2rem 1rem;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+            }
+
+            nav li {
+                min-width: 100px;
+                max-width: 150px;
+            }
+
+            nav button {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .cards-grid {
+                gap: 1.5rem;
+            }
+
+            .tabs-header {
+                gap: 0.3rem;
+                padding-bottom: 0.5rem;
+            }
+
+            .tab-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .tab-btn.active::after {
+                bottom: -0.5rem;
+            }
+
+            .timeline::before {
+                left: 5px;
+            }
+
+            .timeline-item {
+                gap: 1.5rem;
+            }
+
+            .stat-box .number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header p {
+                font-size: 0.9rem;
+            }
+
+            nav button {
+                padding: 0.5rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .tabs-header {
+                gap: 0.2rem;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+
+            .tab-btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+                min-width: fit-content;
+            }
+
+            .stat-box {
+                padding: 1.5rem;
+            }
+
+            .stat-box .number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Utilidades */
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .opacity-75 { opacity: 0.75; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>⚽ A Evolução dos Formatos da Copa do Mundo</h1>
+        <p>  VAMOS BRASILLLLLLL </p>
+    </header>
+
+    <!-- Navegação -->
+    <nav>
+        <ul>
+            <li><button class="nav-btn active" data-section="timeline">📅 Linha do Tempo</button></li>
+            <li><button class="nav-btn" data-section="geopolitica">🌍 Geopolítica</button></li>
+            <li><button class="nav-btn" data-section="economia">💰 Economia</button></li>
+            <li><button class="nav-btn" data-section="matematica">📊 Matemática</button></li>
+            <li><button class="nav-btn" data-section="fisica">🏃 Física</button></li>
+            <li><button class="nav-btn" data-section="debate">💬 Debate</button></li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container">
+
+        <!-- Seção: Linha do Tempo -->
+        <section class="section" id="timeline">
+            <h2>📅 Linha do Tempo dos Formatos</h2>
+            <p class="section-subtitle">Evolução histórica dos formatos da Copa do Mundo desde 1930</p>
+            
+            <div class="timeline" id="timeline-content">
+                <!-- Preenchido por JavaScript -->
+            </div>
+        </section>
+
+        <!-- Seção: Geopolítica -->
+        <section class="section" id="geopolitica">
+            <h2>🌍 Geopolítica e Razões de Expansão</h2>
+            <p class="section-subtitle">Por que a Copa se expandiu ao longo do tempo</p>
+            
+            <div class="cards-grid" id="geopolitica-cards">
+                <!-- Preenchido por JavaScript -->
+            </div>
+
+            <div class="highlight-box">
+                <strong>Insight Geopolítico:</strong> A expansão reflete mudanças na política internacional. Cada aumento de participantes marcou uma nova era: descolonização (1950-60), globalização (1982-98), emergência de potências asiáticas (2026).
+            </div>
+        </section>
+
+        <!-- Seção: Economia -->
+        <section class="section" id="economia">
+            <h2>💰 Impacto Econômico e Receitas</h2>
+            <p class="section-subtitle">Como a expansão afeta a economia global do futebol</p>
+            
+            <div class="tabs-container">
+                <div class="tabs-header" id="economia-tabs">
+                    <!-- Preenchido por JavaScript -->
+                </div>
+                <div id="economia-content">
+                    <!-- Preenchido por JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Matemática -->
+        <section class="section" id="matematica">
+            <h2>📊 Análise Matemática dos Formatos</h2>
+            <p class="section-subtitle">Justiça estatística vs. inclusão global</p>
+            
+            <div class="tabs-container">
+                <div class="tabs-header" id="matematica-tabs">
+                    <!-- Preenchido por JavaScript -->
+                </div>
+                <div id="matematica-content">
+                    <!-- Preenchido por JavaScript -->
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="number">+40</div>
+                <div class="label">Jogos adicionais em 2026</div>
+            </div>
+        </section>
+
+        <!-- Seção: Física -->
+        <section class="section" id="fisica">
+            <h2>🏃 Aspectos Físicos e de Calor</h2>
+            <p class="section-subtitle">Impacto no desempenho e segurança dos atletas</p>
+            
+            <div class="cards-grid" id="fisica-cards">
+                <!-- Preenchido por JavaScript -->
+            </div>
+
+            <div class="highlight-box">
+                <strong>Crítica Fisiológica:</strong> A expansão para 48 times encurta o calendário (mais jogos em menos dias). Isso piora a termodinâmica do desempenho humano. O futebol nacional e o bem-estar atlético podem sofrer.
+            </div>
+        </section>
+
+        <!-- Seção: Debate -->
+        <section class="section" id="debate">
+            <h2>💬 Debate: Diferentes Perspectivas</h2>
+            <p class="section-subtitle">Visões conflitantes sobre a expansão</p>
+            
+            <div class="tabs-container">
+                <div class="tabs-header" id="debate-tabs">
+                    <!-- Preenchido por JavaScript -->
+                </div>
+                <div id="debate-content">
+                    <!-- Preenchido por JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusão -->
+        <section class="section">
+            <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%); border-left: 4px solid var(--accent-gold); border-radius: 12px; padding: 2.5rem; border: 1px solid var(--border-color);">
+                <h2 style="margin-bottom: 1.5rem;">🎯 Conclusão: Uma Oportunidade e um Risco</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary); line-height: 1.8;">A evolução dos formatos da Copa reflete tensões reais entre inclusão global, viabilidade econômica, integridade esportiva e bem-estar humano.</p>
+                
+                <ul style="margin-left: 2rem; line-height: 2; color: var(--text-secondary);">
+                    <li><strong style="color: var(--accent-gold);">História:</strong> Inclusão progressiva é positiva e democrática</li>
+                    <li><strong style="color: var(--accent-gold);">Geopolítica:</strong> Mas perpetua desigualdades entre nações ricas e pobres</li>
+                    <li><strong style="color: var(--accent-gold);">Economia:</strong> Lucra com o futebol, mas quem arca os custos?</li>
+                    <li><strong style="color: var(--accent-gold);">Matemática:</strong> O formato 48 é menos justo que o anterior</li>
+                    <li><strong style="color: var(--accent-gold);">Física:</strong> Coloca atletas em risco por lucro corporativo</li>
+                </ul>
+                
+                <p style="margin-top: 2rem; font-style: italic; color: var(--text-secondary);">A Copa 2026 será um teste: conseguimos expandir inclusão mantendo qualidade, equidade e segurança?</p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>⚽ Copa do Mundo - Análise Interdisciplinar</strong></p>
+        <p>Tema: A Evolução dos Formatos e seus Motivos Históricos</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Análise interdisciplinar: História • Geopolítica • Economia • Matemática • Fisiologia</p>
+    </footer>
+
+    <script>
+        // ============ BACKEND SIMULADO ============
+        
+        // Base de dados de conteúdo
+        const database = {
+            timeline: [
+                {
+                    year: '1930',
+                    title: 'O Início',
+                    content: 'Primeira Copa do Mundo com apenas <strong>13 times</strong>. Formato simples com grupos e mata-mata. Evento pioneiro que mudaria o futebol mundial.'
+                },
+                {
+                    year: '1950',
+                    title: 'Expansão Inicial',
+                    content: 'Aumentou para <strong>13-16 times</strong> (mais países participando). Mundo se reconstruía pós-guerra. Futebol se torna instrumento de diplomacia.'
+                },
+                {
+                    year: '1982',
+                    title: 'Grande Mudança',
+                    content: 'Expandiu para <strong>24 times</strong>. Mundo se abria comercialmente. Mudança decisiva nos critérios de participação. Televisão já era relevante.'
+                },
+                {
+                    year: '1998',
+                    title: 'Inclusão Global',
+                    content: 'Atingiu <strong>32 times</strong>. Países da África e Ásia ganharam espaço (estabilização em 32 times). Formato de 8 grupos de 4 times.'
+                },
+                {
+                    year: '2026',
+                    title: 'Nova Era',
+                    content: 'Formato expandido para <strong>48 times</strong>. Objetivo: incluir nações emergentes e ampliar comercialmente. 16 grupos de 3 times.'
+                }
+            ],
+            geopolitica: [
+                {
+                    icon: '🌏',
+                    title: 'Incluir Nações Menores',
+                    content: 'Países da África, Ásia e América do Sul pressionaram por participação. Fim do Colonialismo abriu espaço político para novas vozes.'
+                },
+                {
+                    icon: '📡',
+                    title: 'Interesse de Televisão',
+                    content: 'Mais times = mais países assistindo = mais receita publicitária. A FIFA percebeu o potencial econômico da inclusão geográfica.'
+                },
+                {
+                    icon: '🗳️',
+                    title: 'Legitimidade Política',
+                    content: 'Decisões políticas impedem/favorecem expansão: pressão de confederações regionais e interesses comerciais das emissoras.'
+                },
+                {
+                    icon: '⚖️',
+                    title: 'Equidade Global',
+                    content: 'Crítica: países europeus/americanos dominavam. Expandir = maior igualdade de oportunidades ao futebol mundial.'
+                }
+            ],
+            economia: [
+                {
+                    id: 'receita-32',
+                    tab: '💰 Receitas (32 times)',
+                    content: '<p><strong>Copa com 32 times:</strong></p><p style="margin-top: 1rem;">• Aproximadamente 64 jogos na competição</p><p>• TV: ~$1.5-2 bilhões (direitos globais)</p><p>• Ingressos: ~$200-300 milhões</p><p>• Patrocínio: ~$500 milhões</p><p style="margin-top: 1rem;"><strong>Total por Copa: ~$2-3 bilhões</strong></p><p style="margin-top: 1rem; color: var(--text-secondary); font-style: italic;">Distribuição: 70% FIFA, 20% confederações, 10% apoio ao futebol local.</p>'
+                },
+                {
+                    id: 'receita-48',
+                    tab: '💸 Receitas (48 times)',
+                    content: '<p><strong>Copa com 48 times (2026+):</strong></p><p style="margin-top: 1rem;">• Aproximadamente 104 jogos na competição</p><p>• TV: ~$3-4 bilhões (direitos globais aumentam 80%+)</p><p>• Ingressos: ~$400-500 milhões (mais jogos, mais estádios)</p><p>• Patrocínio: ~$1 bilhão (grandes marcas pagam mais)</p><p style="margin-top: 1rem;"><strong>Total por Copa: ~$4-5.5 bilhões</strong></p><p style="margin-top: 1rem; color: var(--text-secondary); font-style: italic;">Lucro adicional: +$1.5-2.5 bilhões por Copa.</p>'
+                },
+                {
+                    id: 'impacto',
+                    tab: '📈 Impacto para Países',
+                    content: '<p><strong>Quem Lucra:</strong></p><p style="margin-top: 1rem;">✓ Países-sede (EUA/Canadá/México 2026): infraestrutura, turismo, 10+ bilhões</p><p>✓ Grandes times europeus: mais visibilidade, transferências, patrocínio</p><p style="margin-top: 2rem;"><strong>Quem Sofre:</strong></p><p style="margin-top: 1rem;">✗ Países pobres ainda fora (96 nações): frustração, exclusão econômica</p><p>✗ Clubes domésticos: atletas exaustos retornam tarde, campeonatos sofrem</p><p>✗ Pequenas confederações: custos de preparação, poucas receitas</p>'
+                }
+            ],
+            matematica: [
+                {
+                    id: 'format-32',
+                    tab: '8️⃣ Formato 32 times',
+                    content: '<p><strong>Estrutura:</strong> 8 grupos × 4 times = 32 times</p><p style="margin-top: 1rem;"><strong>Jogos:</strong></p><p>• Fase de grupos: 8 grupos × 6 jogos (total 48 jogos)</p><p>• Mata-mata: 16 → 8 → 4 → 2 → 1 = 16 jogos</p><p><strong>Total: 64 jogos</strong></p><p style="margin-top: 1.5rem; color: var(--accent-gold); font-weight: 600;">Vantagem Matemática:</p><p style="margin-top: 0.5rem;">✓ Cada time joga 3 jogos na fase de grupos</p><p>✓ Chance de qualificação: ~50% (2 de 4 avançam)</p><p>✓ Sorte de calendário: mínima (todos jogam em ordem diferente)</p><p style="margin-top: 1rem; font-style: italic; color: var(--text-secondary);">Conclusão: Mais justo e previsível.</p>'
+                },
+                {
+                    id: 'format-48',
+                    tab: '🔢 Formato 48 times',
+                    content: '<p><strong>Estrutura:</strong> 16 grupos × 3 times = 48 times</p><p style="margin-top: 1rem;"><strong>Jogos:</strong></p><p>• Fase de grupos: 16 grupos × 3 jogos (total 80 jogos)</p><p>• Mata-mata: 32 → 16 → 8 → 4 → 2 → 1 = 24 jogos</p><p><strong>Total: ~104 jogos</strong></p><p style="margin-top: 1.5rem; color: var(--warning); font-weight: 600;">Desvantagem Matemática:</p><p style="margin-top: 0.5rem;">✗ Apenas 3 jogos por grupo</p><p>✗ 2 de 3 avançam (66% de chance)</p><p>✗ Sorte de calendário: MÁXIMA (vitória/derrota define tudo)</p><p>✗ Risco: times "infortúnios" não se classificam justamente</p><p style="margin-top: 1rem; font-style: italic; color: var(--text-secondary);">Conclusão: Menos justo, mais dependente de sorte.</p>'
+                },
+                {
+                    id: 'prob',
+                    tab: '📐 Probabilidades',
+                    content: '<p><strong>Análise de Justiça Competitiva:</strong></p><p style="margin-top: 1rem;">Com 32 times (4 por grupo):</p><p>• Probabilidade de time mais fraco passar: ~5-10%</p><p>• Determinismo: 85% dos casos, melhor time avança</p><p style="margin-top: 1.5rem;">Com 48 times (3 por grupo):</p><p>• Probabilidade de time mais fraco passar: ~25-35%</p><p>• Determinismo: 60% dos casos, melhor time avança</p><p style="margin-top: 1.5rem; color: var(--accent-gold); font-weight: 600;">Resultado:</p><p style="margin-top: 0.5rem;">A Copa 2026 é estatisticamente MENOS JUSTA em ~25% dos casos.</p>'
+                }
+            ],
+            fisica: [
+                {
+                    icon: '🌡️',
+                    title: 'Estresse Térmico',
+                    content: 'Atletas correndo a 25 km/h em ambientes acima de 35°C sofrem estresse térmico severo. Desidratação acelerada afeta desempenho em 15-20%.'
+                },
+                {
+                    icon: '⏱️',
+                    title: 'Tempo de Recuperação',
+                    content: 'Em condições extremas, o corpo precisa de 39+ dias para recuperação completa entre partidas intensas. Com 3 jogos em 7-10 dias, isso é impossível.'
+                },
+                {
+                    icon: '💪',
+                    title: 'Desgaste Acumulado',
+                    content: 'Mais jogos (48 times = +40 jogos) = maior desgaste físico. Lesões aumentam exponencialmente com frequência de jogo.'
+                },
+                {
+                    icon: '📍',
+                    title: 'Condições Climáticas',
+                    content: 'Copa em regiões quentes (América do Norte, verão) intensificam os riscos fisiológicos. Golpe de calor é um risco real.'
+                }
+            ],
+            debate: [
+                {
+                    id: 'historiador',
+                    tab: '👨‍🎓 Historiador',
+                    content: '<p style="font-style: italic; color: var(--accent-gold); margin-bottom: 1.5rem;">"Em 1930, viajar de navio era difícil e tínhamos apenas 13 times. Em 1982, expandimos para 24 porque o mundo mudou: aviões, desenvolvimento econômico. Agora, em 2026, com 48 times, estamos oferecendo uma chance a nações que <strong>nunca jogaram</strong> em Copas, honrando o futebol como esporte global."</p><p style="margin-bottom: 1.5rem;"><strong>Pontos-chave:</strong></p><p>✓ Inclusão histórica = progresso democrático</p><p>✓ Países menores merecem chance de ser protagonista</p><p>✓ Futebol é do povo, não apenas das elites</p>'
+                },
+                {
+                    id: 'medico',
+                    tab: '⚕️ Médico/Fisiologista',
+                    content: '<p style="font-style: italic; color: var(--warning); margin-bottom: 1.5rem;">"Dados físicos não mentem: mais de 104 jogos em calendário comprimido com condições climáticas extremas (35°C+) <strong>viola protocolos médicos</strong> de segurança atlética. Um finalista jogará 8+ partidas sob estresse extremo do calor."</p><p style="margin-bottom: 1.5rem;"><strong>Pontos-chave:</strong></p><p>✗ Lesões aumentarão exponencialmente</p><p>✗ Colapsos por calor são risco real</p><p>✗ Futebol doméstico sofrerá (atletas exaustos)</p>'
+                },
+                {
+                    id: 'critico',
+                    tab: '📢 Crítico',
+                    content: '<p style="font-style: italic; color: var(--info); margin-bottom: 1.5rem;">"A expansão não é histórica nem humanitária: é <strong>lucro</strong>. 48 times = +40 jogos = +bilhões em TV, patrocínio, ingressos. Atletas são commodities descartáveis. Onde está a ética?"</p><p style="margin-bottom: 1.5rem;"><strong>Pontos-chave:</strong></p><p>⚠ Desigualdade: EUA/Canadá/México lucram; pequenas nações quebram</p><p>⚠ Exclusão verdadeira: 48 times ainda deixa ~100 fora</p><p>⚠ Mercantilismo disfarçado de inclusão</p>'
+                }
+            ]
+        };
+
+        // ============ FUNÇÕES DE RENDERIZAÇÃO ============
+
+        // Renderizar Timeline
+        function renderTimeline() {
+            const container = document.getElementById('timeline-content');
+            container.innerHTML = database.timeline.map(item => `
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>${item.year} - ${item.title}</h4>
+                        <p>${item.content}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Renderizar Cards de Geopolítica
+        function renderGeopolitica() {
+            const container = document.getElementById('geopolitica-cards');
+            container.innerHTML = database.geopolitica.map(card => `
+                <div class="card">
+                    <div class="card-icon">${card.icon}</div>
+                    <h3>${card.title}</h3>
+                    <p>${card.content}</p>
+                </div>
+            `).join('');
+        }
+
+        // Renderizar Abas de Economia
+        function renderEconomia() {
+            const tabsContainer = document.getElementById('economia-tabs');
+            const contentContainer = document.getElementById('economia-content');
+            
+            tabsContainer.innerHTML = database.economia.map((item, idx) => `
+                <button class="tab-btn ${idx === 0 ? 'active' : ''}" data-tab="${item.id}">
+                    ${item.tab}
+                </button>
+            `).join('');
+
+            contentContainer.innerHTML = database.economia.map((item, idx) => `
+                <div class="tab-content ${idx === 0 ? 'active' : ''}" id="tab-${item.id}">
+                    ${item.content}
+                </div>
+            `).join('');
+
+            // Adicionar event listeners
+            tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => switchTab(e, tabsContainer, contentContainer));
+            });
+        }
+
+        // Renderizar Abas de Matemática
+        function renderMatematica() {
+            const tabsContainer = document.getElementById('matematica-tabs');
+            const contentContainer = document.getElementById('matematica-content');
+            
+            tabsContainer.innerHTML = database.matematica.map((item, idx) => `
+                <button class="tab-btn ${idx === 0 ? 'active' : ''}" data-tab="${item.id}">
+                    ${item.tab}
+                </button>
+            `).join('');
+
+            contentContainer.innerHTML = database.matematica.map((item, idx) => `
+                <div class="tab-content ${idx === 0 ? 'active' : ''}" id="tab-${item.id}">
+                    ${item.content}
+                </div>
+            `).join('');
+
+            tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => switchTab(e, tabsContainer, contentContainer));
+            });
+        }
+
+        // Renderizar Cards de Física
+        function renderFisica() {
+            const container = document.getElementById('fisica-cards');
+            container.innerHTML = database.fisica.map(card => `
+                <div class="card">
+                    <div class="card-icon">${card.icon}</div>
+                    <h3>${card.title}</h3>
+                    <p>${card.content}</p>
+                </div>
+            `).join('');
+        }
+
+        // Renderizar Abas de Debate
+        function renderDebate() {
+            const tabsContainer = document.getElementById('debate-tabs');
+            const contentContainer = document.getElementById('debate-content');
+            
+            tabsContainer.innerHTML = database.debate.map((item, idx) => `
+                <button class="tab-btn ${idx === 0 ? 'active' : ''}" data-tab="${item.id}">
+                    ${item.tab}
+                </button>
+            `).join('');
+
+            contentContainer.innerHTML = database.debate.map((item, idx) => `
+                <div class="tab-content ${idx === 0 ? 'active' : ''}" id="tab-${item.id}">
+                    ${item.content}
+                </div>
+            `).join('');
+
+            tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => switchTab(e, tabsContainer, contentContainer));
+            });
+        }
+
+        // ============ FUNÇÕES DE INTERAÇÃO ============
+
+        function switchTab(e, tabsContainer, contentContainer) {
+            e.preventDefault();
+            const tabId = e.target.dataset.tab;
+
+            // Remover active de todos os botões
+            tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Remover active de todo conteúdo
+            contentContainer.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Adicionar active ao clicado
+            e.target.classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+
+        // Navegação por seções
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const sectionId = e.target.dataset.section;
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Atualizar navegação ao fazer scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    document.querySelectorAll('.nav-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    const activeBtn = document.querySelector(`.nav-btn[data-section="${section.id}"]`);
+                    if (activeBtn) activeBtn.classList.add('active');
+                }
+            });
+        });
+
+        // ============ INICIALIZAÇÃO ============
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTimeline();
+            renderGeopolitica();
+            renderEconomia();
+            renderMatematica();
+            renderFisica();
+            renderDebate();
+        });
+    </script>
+
+</body>
+</html>
